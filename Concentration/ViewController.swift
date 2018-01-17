@@ -14,7 +14,23 @@ class ViewController: UIViewController
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     @IBOutlet var cardButtons: [UIButton]!
+    
+    let emojiThemes = [
+        "halloween":    ["🎃", "👻", "😈", "🦇", "🕯", "🍭", "🍬", "🧛🏻‍♂️", "🐉", "🕷"],
+        "fruit":        ["🍏", "🍎", "🍉", "🥑", "🍍", "🌶", "🍌", "🍇", "🥥", "🍆"],
+        "construction": ["🚧", "🏭", "🏗", "🚦", "🚚", "🚛", "🚨", "🏛", "🛤", "🛣"],
+        ]
+    
+    var emojiChoices:[String] = []
+    
+    var emoji = [Int:String]()
+    
+    override func viewDidLoad() {
+        startNewGame()
+    }
     
     @IBAction func touchCard(_ sender: UIButton) {
         let cardNumber = cardButtons.index(of: sender)!
@@ -22,13 +38,21 @@ class ViewController: UIViewController
         game.chooseCard(at: cardNumber)
         updateViewFromModel()
     }
+
+    
+    @IBAction func touchNewGame(_ sender: UIButton) {
+        startNewGame()
+    }
+    
+    func startNewGame() {
+        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        populateEmojiChoices()
+        updateViewFromModel()
+    }
     
     func updateViewFromModel() {
-        if game.isGameOver() {
-            game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
-        }
-        
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        scoreLabel.text = "Score: \(game.score)"
 
         for index in cardButtons.indices {
             let button = cardButtons[index]
@@ -44,10 +68,6 @@ class ViewController: UIViewController
         }
     }
     
-    var emojiChoices = ["🎃", "👻", "😈", "🦇", "🕯", "🍭", "🍬", "🧛🏻‍♂️", "🐉", "🕷"]
-    
-    var emoji = [Int:String]()
-    
     func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
             let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
@@ -56,6 +76,13 @@ class ViewController: UIViewController
         }
         
         return emoji[card.identifier] ?? "?"
+    }
+    
+    func populateEmojiChoices() {
+        let themeKeys = Array(emojiThemes.keys)
+        let themeIndex = Concentration.random_uniform_from_zero(toExclusive: themeKeys.count)
+        let theme = themeKeys[themeIndex]
+        emojiChoices = emojiThemes[theme]!
     }
 }
 

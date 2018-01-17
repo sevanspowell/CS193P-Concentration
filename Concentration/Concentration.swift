@@ -16,13 +16,33 @@ class Concentration
     
     var flipCount = 0
     
+    var seenCardIndices = [Int]()
+    
+    var score = 0
+    
     init(numberOfPairsOfCards: Int) {
         generateCards(numberOfPairsOfCards: numberOfPairsOfCards)
         shuffleCards()
     }
     
+    func updateFlipCount(chosenCard card: Card) {
+        if !card.isMatched, !card.isFaceUp {
+                flipCount += 1
+        }
+    }
+    
+    func addSeen(cardIndex: Int) {
+        if !hasBeenSeen(cardIndex: cardIndex) {
+            seenCardIndices += [cardIndex]
+        }
+    }
+    
+    func hasBeenSeen(cardIndex: Int) -> Bool {
+        return seenCardIndices.index(of: cardIndex) != nil
+    }
+    
     func chooseCard(at index: Int) {
-        flipCount += 1
+        updateFlipCount(chosenCard: cards[index])
 
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
@@ -36,7 +56,22 @@ class Concentration
                     // If they do, update matched state
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched        = true
+                    
+                    // Update score
+                    score += 2
+                } else {
+                    // Update score and seen cards
+                    if hasBeenSeen(cardIndex: index) {
+                        score -= 1
+                    }
+                    if hasBeenSeen(cardIndex: matchIndex) {
+                        score -= 1
+                    }
                 }
+                
+                // Update seen cards
+                addSeen(cardIndex: index)
+                addSeen(cardIndex: matchIndex)
 
                 // Update state of card index cache
                 indexOfOneAndOnlyFaceUpCard = nil
@@ -56,6 +91,10 @@ class Concentration
     
     func isGameOver() -> Bool {
         return cards.reduce(true, { $0 && $1.isMatched })
+    }
+    
+    public static func random_uniform_from_zero(toExclusive upperBound: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(upperBound)))
     }
 
     private func generateCards(numberOfPairsOfCards: Int) {
@@ -90,7 +129,7 @@ extension MutableCollection {
         
         // Obtain a random integer
         func randomInt(betweenInclusive start: Int, andInclusive end: Int) -> Int {
-            return Int(arc4random_uniform(UInt32(abs(end - start) + 1))) + Swift.min(start, end)
+            return Concentration.random_uniform_from_zero(toExclusive: abs(end - start) + 1) + Swift.min(start, end)
         }
         
         for i in stride(from: cnt - 1, through: 1, by: -1) {
