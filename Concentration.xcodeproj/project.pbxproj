@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2275A2A4200EE5CA009B99C5 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275A2A3200EE5CA009B99C5 /* Concentration.swift */; };
+		2275A2A6200EE6AB009B99C5 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275A2A5200EE6AB009B99C5 /* Card.swift */; };
 		22F89F4A200C6E3A00D2D401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F89F49200C6E3A00D2D401 /* AppDelegate.swift */; };
 		22F89F4C200C6E3A00D2D401 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F89F4B200C6E3A00D2D401 /* ViewController.swift */; };
 		22F89F4F200C6E3A00D2D401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F89F4D200C6E3A00D2D401 /* Main.storyboard */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2275A2A3200EE5CA009B99C5 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
+		2275A2A5200EE6AB009B99C5 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		22F89F46200C6E3A00D2D401 /* Concentration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Concentration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F89F49200C6E3A00D2D401 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22F89F4B200C6E3A00D2D401 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +58,8 @@
 		22F89F48200C6E3A00D2D401 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
+				2275A2A3200EE5CA009B99C5 /* Concentration.swift */,
+				2275A2A5200EE6AB009B99C5 /* Card.swift */,
 				22F89F4B200C6E3A00D2D401 /* ViewController.swift */,
 				22F89F4D200C6E3A00D2D401 /* Main.storyboard */,
 				22F89F5B200C6F5300D2D401 /* Supporting Files */,
@@ -148,6 +154,8 @@
 			files = (
 				22F89F4C200C6E3A00D2D401 /* ViewController.swift in Sources */,
 				22F89F4A200C6E3A00D2D401 /* AppDelegate.swift in Sources */,
+				2275A2A4200EE5CA009B99C5 /* Concentration.swift in Sources */,
+				2275A2A6200EE6AB009B99C5 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +233,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -273,6 +282,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
