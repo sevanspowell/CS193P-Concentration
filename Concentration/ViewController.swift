@@ -18,14 +18,23 @@ class ViewController: UIViewController
     
     @IBOutlet var cardButtons: [UIButton]!
     
+    struct EmojiTheme
+    {
+        var foreground: UIColor
+        var background: UIColor
+        var emojis: [String]
+    }
+    
     let emojiThemes = [
-        "halloween":    ["🎃", "👻", "😈", "🦇", "🕯", "🍭", "🍬", "🧛🏻‍♂️", "🐉", "🕷"],
-        "fruit":        ["🍏", "🍎", "🍉", "🥑", "🍍", "🌶", "🍌", "🍇", "🥥", "🍆"],
-        "construction": ["🚧", "🏭", "🏗", "🚦", "🚚", "🚛", "🚨", "🏛", "🛤", "🛣"],
+        "halloween":    EmojiTheme(foreground: #colorLiteral(red: 1, green: 0.6837917343, blue: 0, alpha: 1), background: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), emojis: ["🎃", "👻", "😈", "🦇", "🕯", "🍭", "🍬", "🧛🏻‍♂️", "🐉", "🕷"]),
+        "fruit":        EmojiTheme(foreground: #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 1), background: #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1), emojis: ["🍏", "🍎", "🍉", "🥑", "🍍", "🌶", "🍌", "🍇", "🥥", "🍆"]),
+        "construction": EmojiTheme(foreground: #colorLiteral(red: 1, green: 0.9359109956, blue: 0, alpha: 1), background: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), emojis: ["🚧", "🏭", "🏗", "🚦", "🚚", "🚛", "🚨", "🏛", "🛤", "🛣"]),
         ]
     
     var emojiChoices:[String] = []
-    
+    var foreground = #colorLiteral(red: 1, green: 0.6837917343, blue: 0, alpha: 1)
+    var background = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+
     var emoji = [Int:String]()
     
     override func viewDidLoad() {
@@ -46,7 +55,7 @@ class ViewController: UIViewController
     
     func startNewGame() {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
-        populateEmojiChoices()
+        chooseEmojiTheme()
         updateViewFromModel()
     }
     
@@ -63,9 +72,11 @@ class ViewController: UIViewController
                 button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             } else {
                 button.setTitle("", for: UIControlState.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.6837917343, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.6837917343, blue: 0, alpha: 1)
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.6837917343, blue: 0, alpha: 0) : foreground
             }
         }
+        
+        view.backgroundColor = background
     }
     
     func emoji(for card: Card) -> String {
@@ -78,11 +89,16 @@ class ViewController: UIViewController
         return emoji[card.identifier] ?? "?"
     }
     
-    func populateEmojiChoices() {
+    func chooseEmojiTheme() {
         let themeKeys = Array(emojiThemes.keys)
         let themeIndex = Concentration.random_uniform_from_zero(toExclusive: themeKeys.count)
-        let theme = themeKeys[themeIndex]
-        emojiChoices = emojiThemes[theme]!
+        let themeName = themeKeys[themeIndex]
+        
+        let theme = emojiThemes[themeName]!
+        
+        emojiChoices = theme.emojis
+        foreground = theme.foreground
+        background = theme.background
     }
 }
 
